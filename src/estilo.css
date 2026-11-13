@@ -1,0 +1,23 @@
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #4a3a2c;
+}
+#jogo {
+  width: 100%;
+  height: 100%;
+  display: block;
+  outline: none;
+  touch-action: none;
+}
+#carregando {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font: 42px "Patrick Hand", cursive;
+  color: #fbf7ea;
+  pointer-events: none;
+}
