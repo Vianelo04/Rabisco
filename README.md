@@ -11,8 +11,6 @@ npm run dev
 
 **Jogue no navegador:** https://vianelo04.github.io/Rabisco/
 
-![Menu do jogo, com o caderno 3D](docs/imagens/menu.jpg)
-
 ## Sobre o jogo
 
 Um bonequinho rabiscado na margem de um caderno ganha vida durante a aula. Uma **Borracha gigante** começa a apagar o caderno inteiro e vem correndo atrás dele. Para escapar, ele atravessa o caderno **matéria por matéria** até a contracapa, e o único jeito de passar pelos rasgos, paredes e armadilhas é **rabiscar o próprio caminho**.
@@ -43,12 +41,6 @@ Um bonequinho rabiscado na margem de um caderno ganha vida durante a aula. Uma *
 | 3 | **Ciências** | Béquer com ácido, vulcão de maquete em erupção, átomo com elétrons em órbita, conta-gotas e planetas girando em volta do Sol |
 | 4 | **Desenhos** | As últimas páginas do caderno: o chão é lava, carrinho, dragão que cospe fogo, foguete e a contracapa |
 
-| Matemática | Ciências |
-|---|---|
-| ![Números como degraus](docs/imagens/matematica.jpg) | ![Sistema solar](docs/imagens/ciencias.jpg) |
-| **Desenhos: o chão é lava** | **Desenhos: o dragão** |
-| ![Carrinho sobre a lava](docs/imagens/desenhos-carrinho.jpg) | ![Dragão desenhado](docs/imagens/desenhos-dragao.jpg) |
-
 ## Dificuldades
 
 | | Fácil | Médio | Difícil |
@@ -58,8 +50,6 @@ Um bonequinho rabiscado na margem de um caderno ganha vida durante a aula. Uma *
 | Desfazer devolve | 100% da tinta | 50% da tinta | 100% da tinta |
 
 O progresso (fases liberadas e recordes de tempo por dificuldade) fica salvo no navegador.
-
-![Sumário com as matérias](docs/imagens/sumario.jpg)
 
 ## Ferramenta utilizada: BabylonJS
 
