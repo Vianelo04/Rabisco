@@ -159,6 +159,9 @@ export function criarMenu({ engine, audio, entrada, fases, acoes, telaInicial = 
     mostrar("dificuldade");
   });
   capa.addControl(bJogar);
+  const bCreditos = botao("creditos", "créditos", { largura: 220, altura: 60, fundo: "#ffffff", tamanho: 30 });
+  bCreditos.onPointerUpObservable.add(() => mostrar("creditos"));
+  capa.addControl(bCreditos);
 
   const telaDif = novaTela("dificuldade");
   telaDif.addControl(texto("Dificuldade", 84, CORES.tinta));
@@ -219,6 +222,26 @@ export function criarMenu({ engine, audio, entrada, fases, acoes, telaInicial = 
       recorde.text = !liberada ? "complete a anterior" : r != null ? `recorde ${formatarTempo(r)}` : "";
     });
   }
+
+  const creditos = novaTela("creditos");
+  creditos.addControl(texto("Créditos", 84, CORES.tinta));
+  creditos.addControl(texto("Rabisco · jogo de plataforma feito com BabylonJS", 26, "#555"));
+  const integrantes = [
+    ["João Pedro Vianelo Saçço", "estrutura do projeto, menu, dificuldades e regras da partida"],
+    ["João Pedro Maniezzi", "personagem, desenho de plataformas, som e fase Português"],
+    ["Lucas Haddad", "visual do caderno, Borracha, obstáculos, HUD e fase Matemática"],
+    ["Arthur Falcetti", "objetos temáticos e fases Ciências e Desenhos"],
+  ];
+  for (const [nome, parte] of integrantes) {
+    const linhaNome = texto(nome, 36, CORES.grafite);
+    linhaNome.height = "64px";
+    linhaNome.paddingTop = "16px";
+    creditos.addControl(linhaNome);
+    creditos.addControl(texto(parte, 22, "#777"));
+  }
+  const voltarCreditos = botao("voltarCreditos", "← voltar", { largura: 200, altura: 60, fundo: "#ffffff", tamanho: 30 });
+  voltarCreditos.onPointerUpObservable.add(() => mostrar("capa"));
+  creditos.addControl(voltarCreditos);
 
   entrada.limparAtalhos();
   mostrar(telaInicial);
