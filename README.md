@@ -1,4 +1,3 @@
-````markdown
 # Rabisco ✏️
 
 Jogo de plataforma 2.5D feito com **BabylonJS**, em que o jogador **desenha as próprias plataformas com o mouse**.
@@ -168,8 +167,3 @@ Versão completa: 4 matérias jogáveis, 3 dificuldades e progresso salvo no nav
 - Plataformas móveis, giratórias e que caem (`objetos/plataformas.js`)
 - Perigos temáticos: ×, lava, ácido, vulcão e dragão (`objetos/perigos.js`)
 - Fase 3, Ciências, e Fase 4, Desenhos (`fases/ciencias.js`, `fases/desenhos.js`)
-````
-
-Para ver como fica formatado, sem os símbolos: no **VS Code**, abra o arquivo e aperte **Ctrl + Shift + V**. No **GitHub**, ele aparece formatado automaticamente na página do repositório.
-
-As imagens (`docs/imagens/...`) só aparecem depois que a pasta `docs/imagens` do commit 30 for enviada junto.
