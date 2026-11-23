@@ -64,7 +64,7 @@ export const portugues = {
   ],
 
   // Difícil: ponte do 1º rasgo (~10 u) + rampa (~4,5 u) = ~58 de tinta; +10% de margem
-  dificil: { inicial: 44, frascos: [20, 0, 0] },
+  dificil: { inicial: 46, frascos: [20,0, 0] },
 
   especiais(scene, ctx) {
     // letra "A" sólida para aprender a pular
