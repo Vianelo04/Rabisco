@@ -56,6 +56,7 @@ export const ciencias = {
     { x: 40.5, y: 10.6, linhas: ["pule nos elétrons"] },
     { x: 54.5, y: 10.6, linhas: ["gotas de ácido!", "um rabisco serve de guarda-chuva"] },
     { x: 69, y: 15, linhas: ["planetas em órbita:", "não encoste no Sol!"] },
+    { x: 74, y: 12, linhas: ["gravidade em órbita:", "meça o tempo do salto"] },
     { x: 86, y: 9, linhas: ["desenhe uma rampa"] },
     { x: 6, y: 12, linhas: ["H₂O"], cor: "#7aa884" },
     { x: 33, y: 13, linhas: ["E = mc²"], cor: "#7aa884" },
@@ -77,8 +78,8 @@ export const ciencias = {
   ],
   tachinhas: [{ x: 87, y: 4 }],
 
-  // Difícil: ponte do béquer (~8 u) + rampa final (~5,5 u) = ~54 de tinta; +10%
-  dificil: { inicial: 36, frascos: [0, 24] },
+  // Difícil calibrado: tinta inicial para o primeiro trecho + recarga para o final
+  dificil: { inicial: 34, frascos: [0, 20] },
 
   especiais(scene, ctx) {
     const objetos = [];
@@ -179,4 +180,3 @@ export const ciencias = {
     return objetos;
   },
 };
-
