@@ -140,8 +140,8 @@ export const desenhos = {
   estiloObstaculos: { tachinha: "giz" },
   lancadores: [{ x: 87.5, y: 9.2, intervalo: 3.2, vel: -4.5 }],
 
-  // Difícil: degrau até a colina do dragão (~1,2 u) + ponte final (~1,5 u) = ~11; +15%
-  dificil: { inicial: 7, frascos: [0, 7, 0] },
+  // Difícil calibrado para os trechos da fase final com margem controlada
+  dificil: { inicial: 8, frascos: [0, 6, 4] },
 
   especiais(scene, ctx) {
     const objetos = [];
