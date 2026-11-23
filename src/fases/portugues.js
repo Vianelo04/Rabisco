@@ -84,6 +84,15 @@ export const portugues = {
       posicao: [52.4, 6.4],
       nome: "til",
     });
+    // Novidade (Integrante 2): uma vírgula gigante que serve de rampa
+    // para pular as tachinhas do trecho final da página.
+    criarRabiscoSolido(scene, ctx, {
+      tracos: [[[0, 0], [0.8, 0.25], [1.4, 0.7], [1.7, 1.2], [1.6, 1.5]]],
+      cor: "#e06666",
+      raio: 0.14,
+      posicao: [69.4, 2],
+      nome: "virgula",
+    });
     return [];
   },
 };
