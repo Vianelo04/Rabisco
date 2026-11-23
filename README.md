@@ -150,7 +150,7 @@ Versão completa: 4 matérias jogáveis, 3 dificuldades e progresso salvo no nav
 - Borracha gigante que persegue o jogador e apaga os traços (`borracha.js`)
 - Tachinhas e bolas de papel com física (`obstaculos.js`)
 - HUD, telas de pausa e fim e animação da página virando (`hud.js`, `cena/viragem.js`)
-- Fase 2, Matemática (`fases/matematica.js`)
+- Fase 2, Matemática, calibração da tinta do modo Difícil e o + que gira mais rápido (`fases/matematica.js`)
 
 ### Arthur Falcetti
 - Rabiscos sólidos para números, letras e formas (`objetos/rabiscoSolido.js`)
