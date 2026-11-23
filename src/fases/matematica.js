@@ -87,13 +87,15 @@ export const matematica = {
     criarRabiscoSolido(scene, ctx, { ...textoEmTracos("3", 0.6), cor: AZUL, posicao: [2, 0], nome: "tres" });
 
     // + : plataforma giratória sobre o 2º rasgo
+    // novidade: gira mais rápido (era 0,7 rad/s, uma volta a cada ~9 s; agora 1,1 rad/s, ~5,7 s),
+    // então um braço passa a cada ~1,4 s e o jogador precisa acertar o tempo do pulo
     const braco = 2.4;
     objetos.push(
       plataformaMovel(
         scene,
         ctx,
         { tracos: [[[-braco, 0], [braco, 0]], [[0, -braco], [0, braco]]], cor: AZUL, raio: 0.14, nome: "mais" },
-        caminhos.giro([41.5, 4.4], 0.7)
+        caminhos.giro([41.5, 4.4], 1.1)
       )
     );
 
