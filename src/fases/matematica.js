@@ -65,8 +65,12 @@ export const matematica = {
   lancadores: [{ x: 95.5, y: 8.2, intervalo: 2.8, vel: -4.5 }],
   estiloObstaculos: { bola: "zero" },
 
-  // Difícil: degrau até a prateleira (~2 u) + ponte final (~3 u) = ~20 de tinta; +15%
-  dificil: { inicial: 12, frascos: [0, 0, 12] },
+  // Difícil (calibrado): pulo máx. = 12,5² / (2 · 28) ≈ 2,8 u de altura.
+  // - degrau entre o "7" (topo 1,6) e a prateleira (topo 6,5): traço de ~2 u em y ≈ 4 → 8 de tinta;
+  //   inicial = 8 + ~20% (traço à mão nunca sai exato) = 10
+  // - ponte final (rasgo de 8 u entre x 96 e 104, alcance do pulo ≈ 7 u): apoio de ~2 u no meio
+  //   → 8 de tinta; o frasco em x 90 dá 9 (+ a sobra do degrau) → termina com ~3 de sobra
+  dificil: { inicial: 10, frascos: [0, 0, 9] },
 
   especiais(scene, ctx) {
     const objetos = [];
