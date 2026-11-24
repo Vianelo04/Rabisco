@@ -1,13 +1,7 @@
-// Plataformas especiais feitas de rabiscos sólidos:
-// - móvel: segue um caminho em função do tempo (vai-e-vem, elevador, giro, órbita);
-// - gatilho: parada até o jogador subir, então percorre o caminho (foguete);
-// - que cai: despenca pouco depois de ser pisada e volta depois (pontinhos do ÷).
-// Cada uma se registra em ctx.plataformas para o jogador "pegar carona" no movimento.
 import { criarRabiscoSolido } from "./rabiscoSolido.js";
 
 function registrar(ctx, corpo, estado) {
   ctx.plataformas.set(corpo, {
-    /** Velocidade da superfície no ponto p (translação + rotação). */
     velocidadeEm(p, out) {
       out.x = estado.vx - estado.w * (p.y - estado.y);
       out.y = estado.vy + estado.w * (p.x - estado.x);
@@ -33,9 +27,6 @@ function aplicar(estado, r, [x, y, rot = 0], dt) {
   r.mover(x, y, rot);
 }
 
-/**
- * @param {(t:number) => number[]} caminho tempo → [x, y, rotação]
- */
 export function plataformaMovel(scene, ctx, opcoes, caminho) {
   const inicio = caminho(0);
   const r = criarRabiscoSolido(scene, ctx, { ...opcoes, movel: true, posicao: inicio, rotacao: inicio[2] ?? 0 });
@@ -55,7 +46,6 @@ export function plataformaMovel(scene, ctx, opcoes, caminho) {
   };
 }
 
-/** Fica parada até o jogador pisar; então percorre `caminho` por `duracao` s e reaparece no início. */
 export function plataformaGatilho(scene, ctx, opcoes, caminho, duracao, aoDisparar) {
   const inicio = caminho(0);
   const r = criarRabiscoSolido(scene, ctx, { ...opcoes, movel: true, posicao: inicio, rotacao: inicio[2] ?? 0 });
@@ -98,7 +88,6 @@ export function plataformaGatilho(scene, ctx, opcoes, caminho, duracao, aoDispar
   };
 }
 
-/** Despenca 0,35 s depois de pisada e volta ao lugar 2,5 s depois. */
 export function plataformaQueCai(scene, ctx, opcoes, [x, y]) {
   const r = criarRabiscoSolido(scene, ctx, { ...opcoes, movel: true, posicao: [x, y] });
   const estado = novoEstado([x, y]);
@@ -133,16 +122,12 @@ export function plataformaQueCai(scene, ctx, opcoes, [x, y]) {
   };
 }
 
-// ---------- caminhos prontos ----------
 export const caminhos = {
-  /** vai e volta entre dois pontos (movimento suave). */
   vaiVem: ([x0, y0], [x1, y1], periodo, fase = 0) => (t) => {
     const k = (1 - Math.cos(((t / periodo) * 2 + fase) * Math.PI)) / 2;
     return [x0 + (x1 - x0) * k, y0 + (y1 - y0) * k, 0];
   },
-  /** gira no lugar. */
   giro: ([x, y], velAngular, fase = 0) => (t) => [x, y, fase + t * velAngular],
-  /** órbita circular sem girar o próprio objeto. */
   orbita: ([cx, cy], raio, velAngular, fase = 0) => (t) => [
     cx + Math.cos(fase + t * velAngular) * raio,
     cy + Math.sin(fase + t * velAngular) * raio,

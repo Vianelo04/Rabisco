@@ -1,7 +1,3 @@
-// Fase 4 (final) — Desenhos: "As Últimas Páginas".
-// As páginas do fim do caderno, cheias de desenhos do dono: o chão é lava, um carrinho
-// dá carona, um dragão cospe fogo, um foguete decola com você em cima e os amigos
-// bonequinhos esperam na contracapa.
 import { Vector3, Color4, ParticleSystem } from "@babylonjs/core";
 import { criarRabiscoSolido, circulo } from "../objetos/rabiscoSolido.js";
 import { plataformaMovel, plataformaGatilho, caminhos } from "../objetos/plataformas.js";
@@ -9,7 +5,6 @@ import { liquido, dragao } from "../objetos/perigos.js";
 
 const suave = (k) => k * k * (3 - 2 * k);
 
-/** Caminho do foguete: ignição, voo em arco, pairar, e sumir no céu. */
 function caminhoFoguete([ax, ay], [bx, by]) {
   return (t) => {
     if (t < 0.5) return [ax + Math.sin(t * 80) * 0.04, ay, 0];
@@ -87,7 +82,7 @@ export const desenhos = {
   papel: "lisa",
   spawn: [-5, 0],
   saida: [109, 6],
-  semRasgo: [[10, 26]], // ali o "buraco" é lava desenhada
+  semRasgo: [[10, 26]],
   mensagemFinal: "Você chegou à contracapa: o caderno está salvo!",
 
   chaos: [
@@ -97,7 +92,7 @@ export const desenhos = {
     { x0: 40, x1: 56, topo: 3.5 },
     { x0: 74, x1: 88, topo: 8 },
     { x0: 96, x1: 112, topo: 6 },
-    { x0: 112, x1: 116, topo: 18, cor: "#a8774a" }, // a contracapa (papelão)
+    { x0: 112, x1: 116, topo: 18, cor: "#a8774a" },
   ],
 
   anotacoes: [
@@ -140,16 +135,13 @@ export const desenhos = {
   estiloObstaculos: { tachinha: "giz" },
   lancadores: [{ x: 87.5, y: 9.2, intervalo: 3.2, vel: -4.5 }],
 
-  // Difícil calibrado para os trechos da fase final com margem controlada
   dificil: { inicial: 8, frascos: [0, 6, 4] },
 
   especiais(scene, ctx) {
     const objetos = [];
 
-    // lava desenhada de vermelho e laranja
     objetos.push(liquido(scene, ctx, { x0: 10, x1: 26, y: -0.3, nome: "lava" }));
 
-    // carrinho que dá carona por cima da lava
     objetos.push(
       plataformaMovel(
         scene,
@@ -168,13 +160,10 @@ export const desenhos = {
       )
     );
 
-    // dragão na colina
     objetos.push(dragao(scene, ctx, { x: 52.5, y: 3.5, alcance: 7, intervalo: 3.6, duracao: 1.4 }));
 
-    // foguete
     objetos.push(foguete(scene, ctx));
 
-    // estrelinhas "solidas" de enfeite no caminho final
     criarRabiscoSolido(scene, ctx, {
       tracos: [circulo(0, 0, 0.5, 0.5, 5).map(([x, y], i, arr) => arr[(i * 2) % 5])],
       cor: "#f5c518",

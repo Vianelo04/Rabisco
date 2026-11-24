@@ -1,5 +1,3 @@
-// Efeitos de partículas (Babylon ParticleSystem): farelos de borracha,
-// "puf" de morte, brilho ao pegar tinta, poeira ao pousar.
 import { ParticleSystem, DynamicTexture, Vector3, Color4 } from "@babylonjs/core";
 
 export class Efeitos {

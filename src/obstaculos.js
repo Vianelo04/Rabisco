@@ -1,7 +1,3 @@
-// Obstáculos da fase:
-// - Tachinhas: espetadas de ponta para cima no chão (encostar = perder vida).
-// - Bolas de papel: lançadas periodicamente, rolam com física Havok de verdade.
-//   Elas batem nos seus rabiscos, então dá para desenhar uma barreira para segurá-las.
 import {
   MeshBuilder,
   Vector3,
@@ -23,9 +19,6 @@ function material(scene, nome, hex, emissao, especular = 0) {
 }
 
 export class Obstaculos {
-  /**
-   * @param {{tachinhas: {x:number,y:number}[], lancadores: {x:number,y:number,intervalo:number,vel:number}[]}} defs
-   */
   constructor(scene, sombras, defs) {
     this.scene = scene;
     this.sombras = sombras;
@@ -33,7 +26,6 @@ export class Obstaculos {
     this.tachinhas = [];
     this.lancadores = defs.lancadores.map((l) => ({ ...l, tempo: l.intervalo * 0.5 }));
 
-    // ---------- tachinhas (ou gizes de cera em pé, na fase de Desenhos) ----------
     this.estilo = { tachinha: "tachinha", bola: "papel", ...(defs.estilo ?? {}) };
     const cores = ["#e06666", "#e8b931", "#5aa469", "#3a7bd5", "#e056a0"];
     const matPino = material(scene, "matPino", "#b9bec6", 0.2, 0.9);
@@ -84,7 +76,6 @@ export class Obstaculos {
     this.bolas.push({ malha, agg, idade: 0 });
   }
 
-  /** Um "0" desenhado a caneta, rolando como uma roda. */
   _malhaZero() {
     const s = this.scene;
     const malha = MeshBuilder.CreateTorus("zero", { diameter: 0.78, thickness: 0.16, tessellation: 24 }, s);
@@ -100,7 +91,6 @@ export class Obstaculos {
   _malhaPapel() {
     const s = this.scene;
     const malha = MeshBuilder.CreateIcoSphere("bolaPapel", { radius: 0.45, subdivisions: 2, flat: true, updatable: true }, s);
-    // amassa o papel: desloca cada vértice (vértices na mesma posição recebem o mesmo deslocamento)
     const pos = malha.getVerticesData(VertexBuffer.PositionKind);
     const deslocamentos = new Map();
     for (let i = 0; i < pos.length; i += 3) {
@@ -135,7 +125,6 @@ export class Obstaculos {
   atualizar(dt, jogador, derrotarJogador) {
     const p = jogador.posicao;
 
-    // lançadores só funcionam quando o jogador está se aproximando (à esquerda, perto)
     for (const l of this.lancadores) {
       const dx = l.x - p.x;
       if (dx < 1 || dx > 26) continue;
@@ -150,7 +139,6 @@ export class Obstaculos {
     for (const b of [...this.bolas]) {
       b.idade += dt;
       const bp = b.malha.position;
-      // mantém a bola no plano do jogo
       b.agg.body.getLinearVelocityToRef(v);
       if (Math.abs(bp.z) > 0.02 || Math.abs(v.z) > 0.01) {
         v.z = -bp.z * 6;

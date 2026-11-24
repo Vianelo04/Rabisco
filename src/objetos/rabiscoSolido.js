@@ -1,6 +1,3 @@
-// "Rabisco sólido": um desenho feito de traços (números, letras, sinais, formas) que vira
-// objeto físico. Visual = tubos 3D com aparência de caneta; colisão = caixinhas finas ao
-// longo de cada traço, num único corpo Havok (estático ou animado).
 import {
   MeshBuilder,
   Mesh,
@@ -18,7 +15,6 @@ import {
 const EIXO_Z = new Vector3(0, 0, 1);
 const cacheMateriais = new WeakMap();
 
-/** Material de "caneta" por cor, reaproveitado dentro da mesma cena. */
 export function materialCaneta(scene, hex, emissao = 0.55) {
   let porCena = cacheMateriais.get(scene);
   if (!porCena) cacheMateriais.set(scene, (porCena = new Map()));
@@ -34,13 +30,6 @@ export function materialCaneta(scene, hex, emissao = 0.55) {
   return porCena.get(chave);
 }
 
-/**
- * @param {object} o
- * @param {number[][][]} o.tracos lista de traços; cada traço é uma lista de [x, y] locais
- * @param {string} o.cor cor hex da caneta
- * @param {boolean} [o.solido=true] cria colisão
- * @param {boolean} [o.movel=false] corpo ANIMATED (mova com `mover`)
- */
 export function criarRabiscoSolido(scene, ctx, o) {
   const {
     tracos,
@@ -98,7 +87,6 @@ export function criarRabiscoSolido(scene, ctx, o) {
     no,
     corpo,
     malhas,
-    /** Move um rabisco móvel (corpo ANIMATED) para uma nova pose. */
     mover(x, y, rot = 0) {
       alvoPos.set(x, y, 0);
       Quaternion.RotationAxisToRef(EIXO_Z, rot, alvoRot);
@@ -110,10 +98,6 @@ export function criarRabiscoSolido(scene, ctx, o) {
     },
   };
 }
-
-// ---------------------------------------------------------------------------
-// "Fonte" desenhada à mão: caracteres numa caixa de 1 x 2 (origem no canto inferior esquerdo)
-// ---------------------------------------------------------------------------
 
 export function circulo(cx, cy, rx, ry = rx, n = 20, a0 = 0, a1 = Math.PI * 2) {
   const pts = [];
@@ -143,10 +127,6 @@ const GLIFOS = {
   L: [[[0, 2], [0, 0], [1, 0]]],
 };
 
-/**
- * Converte um texto em traços (ex.: "123", "ABC"). Retorna também a largura total.
- * @returns {{tracos:number[][][], largura:number}}
- */
 export function textoEmTracos(texto, escala = 1, espaco = 0.45) {
   const tracos = [];
   let x = 0;

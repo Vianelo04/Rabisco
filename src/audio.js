@@ -1,13 +1,9 @@
-// Sons e música sintetizados na hora (Web Audio API): nenhum arquivo de áudio externo,
-// então não há problema de direitos autorais nem de carregamento.
-
 const ACORDES = [
-  [261.63, 329.63, 392.0], // Dó
-  [220.0, 261.63, 329.63], // Lá menor
-  [174.61, 220.0, 261.63], // Fá
-  [196.0, 246.94, 293.66], // Sol
+  [261.63, 329.63, 392.0],
+  [220.0, 261.63, 329.63],
+  [174.61, 220.0, 261.63],
+  [196.0, 246.94, 293.66],
 ];
-// melodia: índice da nota dentro do acorde (0-2, +3 = oitava acima), null = pausa
 const MELODIA = [3, null, 4, 5, null, 4, 3, null, 2, null, 3, 4, null, null, 5, null];
 const BPM = 100;
 
@@ -17,7 +13,6 @@ export class Audio {
     this.mudo = false;
   }
 
-  /** Precisa ser chamado depois de um clique (regra de autoplay dos navegadores). */
   iniciar() {
     if (this.ctx) return;
     const ctx = new AudioContext();
@@ -26,7 +21,6 @@ export class Audio {
     this.mestre.gain.value = 0.7;
     this.mestre.connect(ctx.destination);
 
-    // ruído branco reaproveitado em vários efeitos
     this.ruido = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
     const dados = this.ruido.getChannelData(0);
     for (let i = 0; i < dados.length; i++) dados[i] = Math.random() * 2 - 1;
@@ -36,7 +30,6 @@ export class Audio {
     this._iniciarMusica();
   }
 
-  /** Som grave de borracha esfregando, que aumenta conforme ela se aproxima. */
   _criarEsfregar() {
     const fonte = this.ctx.createBufferSource();
     fonte.buffer = this.ruido;
@@ -47,7 +40,7 @@ export class Audio {
     const vaiVem = this.ctx.createGain();
     vaiVem.gain.value = 0.6;
     const lfo = this.ctx.createOscillator();
-    lfo.frequency.value = 4.5; // o "vai e vem" da borracha
+    lfo.frequency.value = 4.5;
     const prof = this.ctx.createGain();
     prof.gain.value = 0.4;
     lfo.connect(prof).connect(vaiVem.gain);
@@ -58,7 +51,6 @@ export class Audio {
     lfo.start();
   }
 
-  /** @param {number} intensidade 0 (longe) a 1 (colada no jogador) */
   borracha(intensidade) {
     if (!this.ctx) return;
     this.ganhoEsfregar.gain.setTargetAtTime(intensidade * 0.55, this.ctx.currentTime, 0.1);
@@ -108,7 +100,6 @@ export class Audio {
     fonte.stop(t + dur);
   }
 
-  // ---------- efeitos ----------
   pulo() {
     this._tom(330, 0.14, { ate: 660, vol: 0.08 });
   }
@@ -141,7 +132,6 @@ export class Audio {
     );
   }
 
-  // ---------- som contínuo do lápis riscando ----------
   _criarRisco() {
     const fonte = this.ctx.createBufferSource();
     fonte.buffer = this.ruido;
@@ -152,7 +142,6 @@ export class Audio {
     filtro.Q.value = 1.4;
     this.ganhoRisco = this.ctx.createGain();
     this.ganhoRisco.gain.value = 0;
-    // tremolo: deixa o chiado com textura de grafite no papel
     const lfo = this.ctx.createOscillator();
     lfo.frequency.value = 13;
     const tremolo = this.ctx.createGain();
@@ -170,7 +159,6 @@ export class Audio {
     this.ganhoRisco.gain.setTargetAtTime(ativo ? 0.09 : 0, this.ctx.currentTime, 0.03);
   }
 
-  // ---------- música de fundo ----------
   _iniciarMusica() {
     const ctx = this.ctx;
     this.musica = ctx.createGain();
@@ -193,7 +181,6 @@ export class Audio {
           this._tom(acorde[0] / 2, colcheia * 3.5, { tipo: "sine", vol: 0.09, atraso, destino: this.musica });
         }
         if (passo % 2 === 1) {
-          // "tique" leve como lápis batendo na mesa
           this._tom(1800, 0.03, { tipo: "square", vol: 0.012, atraso, destino: this.musica });
         }
         proximo += colcheia;

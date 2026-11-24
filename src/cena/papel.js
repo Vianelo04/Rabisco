@@ -1,5 +1,3 @@
-// Texturas e materiais do caderno, todos desenhados por código (DynamicTexture),
-// sem nenhuma imagem externa.
 import { DynamicTexture, StandardMaterial, Color3, Texture } from "@babylonjs/core";
 
 export const CORES = {
@@ -13,7 +11,6 @@ export const CORES = {
 
 export const FONTE = '"Patrick Hand", cursive';
 
-/** Quantas unidades do mundo cabem em uma repetição das texturas de papel. */
 export const TAMANHO_AZULEJO = 12.8;
 
 function novaTextura(nome, largura, altura, scene, alfa = false) {
@@ -22,7 +19,6 @@ function novaTextura(nome, largura, altura, scene, alfa = false) {
   return tex;
 }
 
-/** Leve granulado de papel. */
 function granular(ctx, largura, altura, quantidade, cor) {
   ctx.fillStyle = cor;
   for (let i = 0; i < quantidade; i++) {
@@ -32,7 +28,6 @@ function granular(ctx, largura, altura, quantidade, cor) {
   ctx.globalAlpha = 1;
 }
 
-/** Folha pautada (linhas azuis horizontais), repetível. */
 export function texturaPautada(scene) {
   const tam = 1024;
   const tex = novaTextura("pautada", tam, tam, scene);
@@ -53,7 +48,6 @@ export function texturaPautada(scene) {
   return tex;
 }
 
-/** Papel quadriculado (usado no "chão" recortado), repetível. */
 export function texturaQuadriculada(scene) {
   const tam = 1024;
   const tex = novaTextura("quadriculada", tam, tam, scene);
@@ -76,7 +70,6 @@ export function texturaQuadriculada(scene) {
   return tex;
 }
 
-/** Material fosco de papel. */
 export function materialPapel(scene, nome, textura, uEscala = 1, vEscala = 1) {
   const mat = new StandardMaterial(nome, scene);
   const tex = textura;
@@ -88,7 +81,6 @@ export function materialPapel(scene, nome, textura, uEscala = 1, vEscala = 1) {
   return mat;
 }
 
-/** Material "de tinta": cor chapada, sem brilho. */
 export function materialTinta(scene, nome, hex, emissao = 0.6) {
   const mat = new StandardMaterial(nome, scene);
   const cor = Color3.FromHexString(hex);
@@ -98,7 +90,6 @@ export function materialTinta(scene, nome, hex, emissao = 0.6) {
   return mat;
 }
 
-/** Material transparente com o conteúdo de um canvas 2D (textos e desenhos no papel). */
 export function materialDeCanvas(scene, nome, largura, altura, desenhar) {
   const tex = novaTextura(nome, largura, altura, scene, true);
   const ctx = tex.getContext();
@@ -114,7 +105,6 @@ export function materialDeCanvas(scene, nome, largura, altura, desenhar) {
   return mat;
 }
 
-/** Texto manuscrito (anotações do caderno). */
 export function desenharTexto(linhas, tamanho = 64, cor = CORES.grafite) {
   return (ctx, largura, altura) => {
     ctx.font = `${tamanho}px ${FONTE}`;
@@ -127,20 +117,16 @@ export function desenharTexto(linhas, tamanho = 64, cor = CORES.grafite) {
   };
 }
 
-/** Rasgo no papel: mancha escura (a mesa aparecendo) com borda irregular. */
 export function desenharRasgo(ctx, largura, altura) {
   const borda = 26;
   const pontos = [];
-  // borda superior irregular
   for (let x = 0; x <= largura; x += 18) pontos.push([x, borda + (Math.random() - 0.5) * borda]);
   pontos.push([largura - Math.random() * 10, altura]);
   pontos.push([Math.random() * 10, altura]);
-  // lados irregulares
   const lados = [];
   for (let y = altura; y > borda; y -= 30) lados.push([6 + Math.random() * 16, y]);
   const caminho = [...pontos, ...lados];
 
-  // sombra/rebarba branca do papel rasgado
   ctx.fillStyle = "#ffffff";
   ctx.beginPath();
   caminho.forEach(([x, y], i) => (i ? ctx.lineTo(x, y - 6) : ctx.moveTo(x, y - 6)));
@@ -153,7 +139,6 @@ export function desenharRasgo(ctx, largura, altura) {
   ctx.closePath();
   ctx.fill();
 
-  // veios da madeira da mesa
   ctx.strokeStyle = "rgba(0,0,0,0.18)";
   ctx.lineWidth = 3;
   for (let y = borda + 40; y < altura; y += 34) {
@@ -164,7 +149,6 @@ export function desenharRasgo(ctx, largura, altura) {
   }
 }
 
-/** Pequenos desenhos decorativos feitos "à caneta" no fundo da página. */
 export function desenharDoodle(tipo, cor = CORES.tinta, opacidade = 0.55) {
   if (DOODLES_COLORIDOS[tipo]) return DOODLES_COLORIDOS[tipo];
   return (ctx, l, a) => {
@@ -213,7 +197,6 @@ export function desenharDoodle(tipo, cor = CORES.tinta, opacidade = 0.55) {
   };
 }
 
-/** Papel liso (últimas páginas, onde o dono do caderno desenha). */
 export function texturaLisa(scene) {
   const tam = 1024;
   const tex = novaTextura("lisa", tam, tam, scene);
@@ -226,7 +209,6 @@ export function texturaLisa(scene) {
   return tex;
 }
 
-// ---------- desenhos coloridos "de criança" (giz de cera / canetinha) ----------
 function giz(ctx, cor, largura = 12) {
   ctx.strokeStyle = cor;
   ctx.fillStyle = cor;
@@ -237,7 +219,6 @@ function giz(ctx, cor, largura = 12) {
 }
 
 function hachura(ctx, x0, y0, x1, y1, cor) {
-  // preenchimento rabiscado em zigue-zague, como pintura de giz de cera
   ctx.save();
   giz(ctx, cor, 6);
   ctx.globalAlpha = 0.45;

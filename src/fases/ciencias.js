@@ -1,6 +1,3 @@
-// Fase 3 — Ciências: "O Laboratório".
-// Béquer de ácido, vulcão de maquete, átomo com elétrons em órbita (plataformas),
-// conta-gotas pingando e planetas girando em volta do Sol.
 import { MeshBuilder, StandardMaterial, Color3 } from "@babylonjs/core";
 import { criarRabiscoSolido, circulo } from "../objetos/rabiscoSolido.js";
 import { plataformaMovel, caminhos } from "../objetos/plataformas.js";
@@ -9,7 +6,6 @@ import { liquido, vulcao, gotejador } from "../objetos/perigos.js";
 const VERDE = "#2e7d32";
 const CINZA = "#6d7680";
 
-/** Sol: esfera brilhante que machuca ao encostar. */
 function sol(scene, ctx, [x, y], raio) {
   const esfera = MeshBuilder.CreateSphere("sol", { diameter: raio * 2, segments: 24 }, scene);
   esfera.position.set(x, y, 0);
@@ -37,7 +33,7 @@ export const ciencias = {
   papel: "pautada",
   spawn: [-5, 0],
   saida: [100, 8.5],
-  semRasgo: [[12, 19]], // o "buraco" do béquer é o próprio béquer
+  semRasgo: [[12, 19]],
 
   chaos: [
     { x0: -12, x1: -9, topo: 12 },
@@ -78,13 +74,11 @@ export const ciencias = {
   ],
   tachinhas: [{ x: 87, y: 4 }],
 
-  // Difícil calibrado: tinta inicial para o primeiro trecho + recarga para o final
   dificil: { inicial: 34, frascos: [0, 20] },
 
   especiais(scene, ctx) {
     const objetos = [];
 
-    // béquer com ácido (contorno de vidro + marcações)
     criarRabiscoSolido(scene, ctx, {
       tracos: [
         [[0, 1.4], [0.3, -2.2], [7.4, -2.2], [7.7, 1.4]],
@@ -100,10 +94,8 @@ export const ciencias = {
     });
     objetos.push(liquido(scene, ctx, { x0: 12, x1: 19, y: -0.5, cor1: "#9dff8a", cor2: "#3bb54a", nome: "acido" }));
 
-    // vulcão de maquete
     objetos.push(vulcao(scene, ctx, { x: 26, yBase: 0, altura: 2.4, base: 5.2, intervalo: 4.2 }));
 
-    // átomo: núcleo fixo e dois elétrons em órbita (plataformas)
     const centro = [40.5, 3];
     criarRabiscoSolido(scene, ctx, { tracos: [circulo(0, 0, 0.75, 0.75, 16)], cor: VERDE, posicao: centro, nome: "nucleo" });
     criarRabiscoSolido(scene, ctx, {
@@ -126,11 +118,9 @@ export const ciencias = {
       );
     }
 
-    // conta-gotas pingando ácido
     objetos.push(gotejador(scene, ctx, { x: 52.5, yTopo: 8.5, intervalo: 1.3 }));
     objetos.push(gotejador(scene, ctx, { x: 56.5, yTopo: 8.5, intervalo: 1.7 }));
 
-    // sistema solar: Sol no meio, dois planetas-plataforma em órbita
     const centroSolar = [68.5, 5.5];
     objetos.push(sol(scene, ctx, centroSolar, 1.1));
     criarRabiscoSolido(scene, ctx, {
@@ -162,7 +152,6 @@ export const ciencias = {
       );
     }
 
-    // tubos de ensaio decorativos
     for (const [x, cor] of [
       [82.5, "#e056a0"],
       [83.3, "#f5c518"],

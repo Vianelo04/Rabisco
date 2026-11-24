@@ -1,4 +1,3 @@
-// O bonequinho de palito: corpo físico (cápsula Havok) + visual desenhado à caneta.
 import {
   MeshBuilder,
   Vector3,
@@ -14,8 +13,8 @@ const VELOCIDADE = 7;
 const ACEL_CHAO = 60;
 const ACEL_AR = 32;
 const FORCA_PULO = 12.5;
-const TEMPO_COYOTE = 0.1; // ainda dá para pular logo depois de sair da borda
-const BUFFER_PULO = 0.13; // pulo apertado um pouco antes de tocar o chão também vale
+const TEMPO_COYOTE = 0.1;
+const BUFFER_PULO = 0.13;
 const QUEDA_MAX = 22;
 const MEIA_ALTURA = 0.8;
 
@@ -42,7 +41,7 @@ export class Jogador {
       scene
     );
     this.corpo = this.agg.body;
-    this.corpo.setMassProperties({ inertia: Vector3.Zero() }); // nunca tomba
+    this.corpo.setMassProperties({ inertia: Vector3.Zero() });
     this.agg.shape.filterMembershipMask = MASCARA_JOGADOR;
 
     this.vel = new Vector3();
@@ -64,9 +63,7 @@ export class Jogador {
     this._ate = new Vector3();
     this._normal = new Vector3(0, 1, 0);
     this._velPlataforma = new Vector3();
-    /** corpo físico em que o jogador está pisando (ou null) */
     this.corpoChao = null;
-    /** Map<PhysicsBody, {velocidadeEm(p, out)}> preenchido pelas plataformas móveis */
     this.plataformas = new Map();
 
     this._montarVisual(sombras);
@@ -143,7 +140,6 @@ export class Jogador {
     [cabeca, tronco, cachecol].forEach((m) => sombras.addShadowCaster(m));
   }
 
-  /** Verifica o chão com 3 raios curtos (Havok raycast) e guarda a normal da superfície. */
   _checarChao(pos) {
     const pe = this.scene.getPhysicsEngine();
     let achou = false;
@@ -167,10 +163,6 @@ export class Jogador {
     return achou;
   }
 
-  /**
-   * Procura um degrau baixo logo à frente (ex.: a ponta de um traço que começou acima do chão).
-   * Retorna a altura do degrau ou 0.
-   */
   _degrauAFrente(pos, direcao) {
     const pe = this.scene.getPhysicsEngine();
     const pes = pos.y - MEIA_ALTURA;
@@ -194,7 +186,6 @@ export class Jogador {
 
     const estavaNoChao = this.noChao;
     const tocouChao = this._checarChao(pos);
-    // velocidade da plataforma sob os pés (para "pegar carona" no movimento)
     const plat = tocouChao ? this.plataformas.get(this.corpoChao) : null;
     if (plat) plat.velocidadeEm(pos, this._velPlataforma);
     else this._velPlataforma.set(0, 0, 0);
@@ -215,7 +206,6 @@ export class Jogador {
       this.coyote -= dt;
     }
 
-    // ----- entrada -----
     const eixo = this.travado ? 0 : this.entrada.eixoX;
     if (this.entrada.consumirPulo() && !this.travado) this.buffer = BUFFER_PULO;
     else this.buffer -= dt;
@@ -224,7 +214,6 @@ export class Jogador {
     const atual = this.noChao ? this.vx : v.x;
     this.vx = aproximar(atual, eixo * VELOCIDADE, (this.noChao ? ACEL_CHAO : ACEL_AR) * dt);
 
-    // ----- pulo -----
     if (this.buffer > 0 && this.coyote > 0) {
       this.buffer = 0;
       this.coyote = 0;
@@ -236,7 +225,6 @@ export class Jogador {
       this.squash = 1.3;
       this.audio.pulo();
     }
-    // soltar o botão cedo = pulo mais baixo (controle fino)
     if (this.pulando && !this.puloCortado && v.y > 0 && !this.entrada.segurandoPulo) {
       v.y *= 0.5;
       this.puloCortado = true;
@@ -244,12 +232,10 @@ export class Jogador {
 
     const degrau = this.noChao && Math.abs(this.vx) > 0.5 ? this._degrauAFrente(pos, Math.sign(this.vx)) : 0;
     if (degrau > 0) {
-      // sobe o degrau com um pulinho automático
       this.corpo.setGravityFactor(1);
       v.x = this.vx;
       v.y = Math.sqrt(2 * 28 * (degrau + 0.15));
     } else if (this.noChao) {
-      // anda ao longo da superfície (tangente da rampa) sem escorregar
       this.corpo.setGravityFactor(0);
       const n = this._normal;
       v.x = n.y * this.vx + this._velPlataforma.x;
@@ -259,7 +245,7 @@ export class Jogador {
       v.x = this.vx;
       v.y = Math.max(v.y, -QUEDA_MAX);
     }
-    v.z = -pos.z * 5; // mantém o boneco no plano z = 0
+    v.z = -pos.z * 5;
     this.corpo.setLinearVelocity(v);
 
     this._animar(dt);
@@ -287,7 +273,6 @@ export class Jogador {
     this.raiz.scaling.set(this.olhando * largura, this.squash, 1);
   }
 
-  /** Move o corpo físico instantaneamente para uma posição. */
   teleportar(pos) {
     this.corpo.disablePreStep = false;
     this.capsula.position.copyFrom(pos);

@@ -1,5 +1,3 @@
-// Perigos temáticos (encostar = perder vida): sinal × girando, lava desenhada,
-// líquido de laboratório, gotas de ácido, vulcão de maquete e fogo de dragão.
 import {
   MeshBuilder,
   Vector3,
@@ -14,7 +12,6 @@ import {
 import { criarRabiscoSolido, materialCaneta } from "./rabiscoSolido.js";
 import { materialDeCanvas } from "../cena/papel.js";
 
-/** O jogador (cápsula) encosta no retângulo? */
 export function tocaRetangulo(p, x0, x1, y0, y1) {
   return p.x + 0.3 > x0 && p.x - 0.3 < x1 && p.y + 0.75 > y0 && p.y - 0.8 < y1;
 }
@@ -49,7 +46,6 @@ function particulas(scene, ctx, nome, emissor, cfg) {
   return ps;
 }
 
-/** Sinal × girando. */
 export function perigoGiratorio(scene, ctx, { centro: [cx, cy], braco = 1.1, vel = 2, cor = "#d64545" }) {
   const r = criarRabiscoSolido(scene, ctx, {
     tracos: [
@@ -84,7 +80,6 @@ export function perigoGiratorio(scene, ctx, { centro: [cx, cy], braco = 1.1, vel
   };
 }
 
-/** Faixa de "líquido" mortal (lava desenhada, ácido do béquer). */
 export function liquido(scene, ctx, { x0, x1, y, cor1 = "#ff7a1a", cor2 = "#d62f2f", nome = "lava" }) {
   const largura = x1 - x0;
   const plano = MeshBuilder.CreatePlane(nome, { width: largura, height: 1.2 }, scene);
@@ -133,9 +128,7 @@ export function liquido(scene, ctx, { x0, x1, y, cor1 = "#ff7a1a", cor2 = "#d62f
   };
 }
 
-/** Conta-gotas que pinga ácido periodicamente. */
 export function gotejador(scene, ctx, { x, yTopo, intervalo = 1.6, cor = "#5bd16b" }) {
-  // o conta-gotas (bulbo + tubo) desenhado
   criarRabiscoSolido(scene, ctx, {
     tracos: [
       [[-0.15, 0], [-0.15, 1.2], [-0.35, 1.5], [-0.3, 2], [0, 2.2], [0.3, 2], [0.35, 1.5], [0.15, 1.2], [0.15, 0]],
@@ -166,7 +159,6 @@ export function gotejador(scene, ctx, { x, yTopo, intervalo = 1.6, cor = "#5bd16
         g.vel += 18 * dt;
         g.malha.position.y -= g.vel * dt;
         const p = g.malha.position;
-        // some ao bater em qualquer coisa sólida (inclusive seus rabiscos!) ou cair muito
         const hit = pe.raycast(p, new Vector3(p.x, p.y - g.vel * dt - 0.2, 0), { collideWith: 1 });
         const bateu = hit.hasHit || p.y < -14;
         if (!jogador.morto && Math.abs(jogador.posicao.x - p.x) < 0.45 && Math.abs(jogador.posicao.y - p.y) < 0.95) {
@@ -187,7 +179,6 @@ export function gotejador(scene, ctx, { x, yTopo, intervalo = 1.6, cor = "#5bd16
   };
 }
 
-/** Vulcão de maquete: um morro sólido que entra em erupção de tempos em tempos. */
 export function vulcao(scene, ctx, { x, yBase, altura = 2.4, base = 5.2, intervalo = 4, duracao = 1.4 }) {
   const cone = MeshBuilder.CreateCylinder("vulcao", { height: altura, diameterTop: 0.9, diameterBottom: base, tessellation: 24 }, scene);
   cone.position.set(x, yBase + altura / 2, 0);
@@ -239,7 +230,7 @@ export function vulcao(scene, ctx, { x, yBase, altura = 2.4, base = 5.2, interva
       const ciclo = t % intervalo;
       const ativa = ciclo > intervalo - duracao;
       const aviso = ciclo > intervalo - duracao - 0.8 && !ativa;
-      cone.position.x = x + (aviso ? Math.sin(t * 60) * 0.04 : 0); // treme antes de explodir
+      cone.position.x = x + (aviso ? Math.sin(t * 60) * 0.04 : 0);
       if (ativa !== erupcao) {
         erupcao = ativa;
         ativa ? lava.start() : lava.stop();
@@ -252,22 +243,16 @@ export function vulcao(scene, ctx, { x, yBase, altura = 2.4, base = 5.2, interva
   };
 }
 
-/** Dragão desenhado que cospe fogo para a esquerda em intervalos. */
 export function dragao(scene, ctx, { x, y, alcance = 7, intervalo = 3.4, duracao = 1.3 }) {
   const no = new TransformNode("dragao", scene);
   no.position.set(x, y, 0);
   if (ctx.raiz) no.parent = ctx.raiz;
-  // corpo do dragão desenhado com "giz de cera" verde
   const desenho = criarRabiscoSolido(scene, ctx, {
     tracos: [
-      // corpo e cauda
       [[-1.2, 1.2], [-0.6, 0.6], [0.4, 0.5], [1.2, 0.8], [1.9, 1.5], [2.3, 1.1]],
       [[-0.6, 0.6], [-0.5, 0], [-0.2, 0.5], [0.4, 0], [0.5, 0.5]],
-      // pescoço e cabeça
       [[-1.2, 1.2], [-1.1, 2.0], [-1.6, 2.3], [-2.1, 2.1], [-1.8, 1.8], [-1.2, 1.7]],
-      // asa
       [[0, 0.9], [0.2, 2.1], [0.8, 1.5], [1.1, 2.2], [1.2, 0.9]],
-      // espinhos
       [[-0.4, 0.75], [-0.25, 1.05], [-0.05, 0.7], [0.15, 1.0], [0.35, 0.65]],
     ],
     cor: "#3f9e4d",
@@ -313,10 +298,7 @@ export function dragao(scene, ctx, { x, y, alcance = 7, intervalo = 3.4, duracao
       }
       if (jogador.morto) return;
       const p = jogador.posicao;
-      // encostar no próprio dragão
-      // (só o "miolo" do corpo, para dar para pular por cima)
       if (tocaRetangulo(p, x - 1.4, x + 1.1, y, y + 1.5)) return perderVida();
-      // fogo
       if (cuspindo && tocaRetangulo(p, boca.x - alcance, boca.x, boca.y - 0.7, boca.y + 0.5)) perderVida();
     },
     resetar() {

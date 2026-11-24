@@ -1,5 +1,3 @@
-// Teclado → estado de entrada que o resto do jogo consulta a cada quadro.
-
 const ESQUERDA = ["KeyA", "ArrowLeft"];
 const DIREITA = ["KeyD", "ArrowRight"];
 const PULO = ["Space", "KeyW", "ArrowUp"];
@@ -19,11 +17,9 @@ export class Entrada {
       this.atalhos.get(e.code)?.();
     });
     window.addEventListener("keyup", (e) => this.teclas.delete(e.code));
-    // ao trocar de janela, solta todas as teclas (evita personagem "andando sozinho")
     window.addEventListener("blur", () => this.teclas.clear());
   }
 
-  /** -1 (esquerda), 0 ou 1 (direita) */
   get eixoX() {
     const esq = ESQUERDA.some((k) => this.teclas.has(k)) ? 1 : 0;
     const dir = DIREITA.some((k) => this.teclas.has(k)) ? 1 : 0;
@@ -34,7 +30,6 @@ export class Entrada {
     return PULO.some((k) => this.teclas.has(k));
   }
 
-  /** Retorna true uma única vez por toque na tecla de pulo. */
   consumirPulo() {
     const p = this.pedidoDePulo;
     this.pedidoDePulo = false;
@@ -45,7 +40,6 @@ export class Entrada {
     this.atalhos.set(codigo, acao);
   }
 
-  /** Remove os atalhos da tela anterior (ao trocar de cena). */
   limparAtalhos() {
     this.atalhos.clear();
   }

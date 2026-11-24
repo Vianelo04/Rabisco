@@ -1,6 +1,3 @@
-// A mecânica central: o jogador desenha com o mouse e o traço vira plataforma.
-// Visual: tubo 3D (MeshBuilder.CreateTube). Colisão: um corpo estático Havok
-// formado por caixinhas finas ao longo do traço (PhysicsShapeContainer).
 import {
   MeshBuilder,
   Mesh,
@@ -17,17 +14,14 @@ import {
   PointerEventTypes,
 } from "@babylonjs/core";
 
-const CUSTO_POR_UNIDADE = 4; // tinta gasta por unidade de comprimento
-const PASSO_MINIMO = 0.18; // distância mínima entre pontos do traço
-const PASSO_MAXIMO = 0.45; // segmentos maiores são subdivididos
+const CUSTO_POR_UNIDADE = 4;
+const PASSO_MINIMO = 0.18;
+const PASSO_MAXIMO = 0.45;
 const RAIO = 0.075;
 const ESPESSURA_COLISAO = 0.26;
 const EIXO_Z = new Vector3(0, 0, 1);
 
 export class Desenho {
-  /**
-   * @param {object} ctx { jogo, hud, audio, efeitos, sombras, podeDesenhar(), posJogador() }
-   */
   constructor(scene, camera, ctx) {
     this.scene = scene;
     this.camera = camera;
@@ -63,7 +57,6 @@ export class Desenho {
     });
   }
 
-  /** Converte a posição do mouse em um ponto no plano do jogo (z = 0). */
   _pontoDoMouse() {
     const raio = this.scene.createPickingRay(this.scene.pointerX, this.scene.pointerY, Matrix.Identity(), this.camera);
     const t = -raio.origin.z / raio.direction.z;
@@ -84,7 +77,6 @@ export class Desenho {
     this.ctx.audio.riscar(true);
   }
 
-  /** Pequeno tremido "de mão" só no visual. */
   _tremer(p) {
     return new Vector3(p.x + (Math.random() - 0.5) * 0.05, p.y + (Math.random() - 0.5) * 0.05, 0);
   }
@@ -129,7 +121,6 @@ export class Desenho {
       this.scene
     );
     principal.material = this.matTinta;
-    // segundo traço levemente deslocado: aparência de rabisco "passado duas vezes"
     const eco = MeshBuilder.CreateTube(
       "tracoEco",
       { path: tr.visual.map((p) => new Vector3(p.x + 0.05, p.y - 0.04, -0.05)), radius: RAIO * 0.6, tessellation: 5 },
@@ -146,12 +137,11 @@ export class Desenho {
     this.ctx.audio.riscar(false);
 
     if (tr.pontos.length < 2 || tr.comprimento < 0.4) {
-      this.ctx.jogo.tinta += tr.comprimento * CUSTO_POR_UNIDADE; // traço curto demais: devolve a tinta
+      this.ctx.jogo.tinta += tr.comprimento * CUSTO_POR_UNIDADE;
       tr.malhas.forEach((m) => m.dispose());
       return;
     }
 
-    // ---- colisão: uma caixa fina por segmento, todas num único corpo estático ----
     const no = new TransformNode("tracoFisico", this.scene);
     const forma = new PhysicsShapeContainer(this.scene);
     const filhos = [];
@@ -183,7 +173,6 @@ export class Desenho {
 
   }
 
-  /** Remove um traço (usado pela borracha e pelo desfazer). */
   apagar(tr, silencioso = false) {
     const i = this.tracos.indexOf(tr);
     if (i < 0) return;
@@ -211,7 +200,6 @@ export class Desenho {
     this.apagar(tr);
   }
 
-  /** Cancela o traço em andamento (sem criar plataforma). */
   cancelar() {
     if (!this.atual) return;
     this.ctx.jogo.tinta += this.atual.comprimento * CUSTO_POR_UNIDADE;

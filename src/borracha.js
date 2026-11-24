@@ -1,6 +1,3 @@
-// A Borracha gigante: persegue o protagonista por trás, apaga os traços por onde passa
-// e derrota o jogador se alcançá-lo. Velocidade com "elástico": se ficar muito para trás,
-// acelera, para a pressão nunca sumir.
 import {
   MeshBuilder,
   Vector3,
@@ -26,7 +23,6 @@ function material(scene, nome, hex, emissao) {
 }
 
 export class Borracha {
-  /** @param {number} velBase velocidade de cruzeiro (o jogador corre a 7) */
   constructor(scene, sombras, texturaParticula, velBase = 4.6) {
     this.velBase = velBase;
     this.raiz = new TransformNode("borracha", scene);
@@ -48,7 +44,6 @@ export class Borracha {
       sombras.addShadowCaster(m);
     }
 
-    // rosto bravo, virado para a câmera (z negativo) e para a direita (onde está o jogador)
     const branco = material(scene, "matOlhoB", "#ffffff", 0.9);
     const preto = material(scene, "matPupila", "#222222", 0.1);
     for (const x of [0.35, 0.85]) {
@@ -73,7 +68,6 @@ export class Borracha {
     boca.material = preto;
     boca.parent = corpoNo;
 
-    // farelos saindo enquanto ela "esfrega" a página
     const farelos = new ParticleSystem("farelosBorracha", 300, scene);
     farelos.particleTexture = texturaParticula;
     farelos.emitter = this.raiz;
@@ -103,7 +97,6 @@ export class Borracha {
     this.raiz.setEnabled(false);
   }
 
-  /** Coloca a borracha atrás do ponto de partida; ela acorda depois de `espera` segundos. */
   resetar(posJogador, espera) {
     this.x = posJogador.x - DISTANCIA_CONFORTAVEL - 2;
     this.y = posJogador.y + 0.4;
@@ -119,14 +112,10 @@ export class Borracha {
     this.farelos.stop();
   }
 
-  /** Distância horizontal até o jogador (positiva = borracha atrás). */
   distancia(jogador) {
     return jogador.posicao.x - this.x;
   }
 
-  /**
-   * @returns {boolean} true no quadro em que ela "acorda"
-   */
   atualizar(dt, jogador, desenho, derrotarJogador) {
     let acordou = false;
     if (!this.ativa) {
@@ -143,16 +132,13 @@ export class Borracha {
     const atras = p.x - this.x;
     const vel = Math.min(VEL_MAX, this.velBase + Math.max(0, atras - DISTANCIA_CONFORTAVEL) * ELASTICO);
     this.x += vel * dt;
-    // acompanha a altura do jogador, sem descer abaixo do chão mais baixo
     const alvoY = Math.max(p.y + 0.4, 1);
     this.y += (alvoY - this.y) * Math.min(1, dt * 2.5);
 
-    // animação: balança como se estivesse esfregando com força
     const esfrega = Math.sin(this.t * 14);
     this.raiz.position.set(this.x, this.y + Math.abs(esfrega) * 0.15, 0);
     this.corpoNo.rotation.z = esfrega * 0.08;
 
-    // apaga qualquer traço que toque
     for (const tr of [...desenho.tracos]) {
       if (tr.pontos.some((q) => q.x < this.x + LARGURA / 2 + 0.1 && q.x > this.x - LARGURA && Math.abs(q.y - this.y) < ALTURA / 2 + 0.6)) {
         desenho.apagar(tr);

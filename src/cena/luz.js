@@ -1,5 +1,3 @@
-// Iluminação: luz ambiente suave + "luz de luminária" direcional que projeta
-// sombras dos rabiscos e do personagem sobre a folha (dá a profundidade do 2.5D).
 import { HemisphericLight, DirectionalLight, ShadowGenerator, Vector3, Color3 } from "@babylonjs/core";
 
 export function criarIluminacao(scene) {
@@ -10,7 +8,6 @@ export function criarIluminacao(scene) {
   const direcao = new Vector3(0.35, -0.75, 0.55).normalize();
   const luminaria = new DirectionalLight("luminaria", direcao, scene);
   luminaria.intensity = 0.7;
-  // sombra com área fixa que acompanha o jogador (mais nítida que cobrir a fase toda)
   luminaria.autoUpdateExtends = false;
   luminaria.shadowFrustumSize = 44;
   luminaria.shadowMinZ = 1;
@@ -24,7 +21,6 @@ export function criarIluminacao(scene) {
 
   return {
     sombras,
-    /** Reposiciona a luz para seguir o centro da câmera. */
     seguir(alvo) {
       luminaria.position.copyFrom(alvo).subtractInPlace(direcao.scale(35));
     },

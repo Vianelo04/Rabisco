@@ -1,11 +1,9 @@
-// Animação 3D da página do caderno virando (Babylon Animation + easing).
 import { MeshBuilder, Mesh, Vector3, Animation, CubicEase, EasingFunction, StandardMaterial, Color3 } from "@babylonjs/core";
 import { texturaPautada, TAMANHO_AZULEJO } from "./papel.js";
 
 const LARGURA = 20;
 const ALTURA = 13;
 
-/** Vira uma página nova por cima da tela. Resolve a Promise quando termina. */
 export function virarPagina(scene, camera) {
   const pagina = MeshBuilder.CreatePlane("paginaVirando", { width: LARGURA, height: ALTURA, sideOrientation: Mesh.DOUBLESIDE }, scene);
   const mat = new StandardMaterial("matPaginaVirando", scene);
@@ -17,7 +15,6 @@ export function virarPagina(scene, camera) {
   mat.specularColor = Color3.Black();
   pagina.material = mat;
 
-  // presa à câmera, com o eixo de giro na borda esquerda (como a lombada do caderno)
   pagina.parent = camera;
   pagina.position = new Vector3(2.2, 0, 9);
   pagina.setPivotPoint(new Vector3(-LARGURA / 2, 0, 0));

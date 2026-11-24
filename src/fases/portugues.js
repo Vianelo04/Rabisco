@@ -1,5 +1,3 @@
-// Fase 1 — Português: "A Margem do Caderno" (tutorial).
-// Letras rabiscadas viram obstáculos e o acento agudo vira um degrau no meio do rasgo.
 import { criarRabiscoSolido, textoEmTracos } from "../objetos/rabiscoSolido.js";
 
 export const portugues = {
@@ -11,13 +9,13 @@ export const portugues = {
   saida: [81, 3],
 
   chaos: [
-    { x0: -12, x1: -9, topo: 12 }, // parede da margem
+    { x0: -12, x1: -9, topo: 12 },
     { x0: -9, x1: 12, topo: 0 },
     { x0: 21, x1: 32, topo: 0 },
     { x0: 32, x1: 44, topo: 4 },
     { x0: 52, x1: 54.5, topo: 3.5, flutuante: true },
     { x0: 60, x1: 84, topo: 2 },
-    { x0: 84, x1: 88, topo: 12 }, // parede final
+    { x0: 84, x1: 88, topo: 12 },
   ],
 
   anotacoes: [
@@ -30,7 +28,6 @@ export const portugues = {
     { x: 48, y: 9.4, linhas: ["use o acento", "como degrau"] },
     { x: 68, y: 7.6, linhas: ["Z ou botão direito", "desfaz o último traço"] },
     { x: 79.5, y: 6.4, linhas: ["fim da página →"] },
-    // caderno de caligrafia ao fundo
     { x: 14, y: 10.5, linhas: ["Aa Bb Cc Dd Ee"], cor: "#7a8fb8" },
     { x: 62, y: 11, linhas: ["substantivo · verbo · adjetivo"], cor: "#7a8fb8", largura: 1.4 },
   ],
@@ -63,13 +60,10 @@ export const portugues = {
     { x: 83, y: 3.2, intervalo: 2.6, vel: -5 },
   ],
 
-  // Difícil: ponte do 1º rasgo (~10 u) + rampa (~4,5 u) = ~58 de tinta; +10% de margem
   dificil: { inicial: 46, frascos: [20,0, 0] },
 
   especiais(scene, ctx) {
-    // letra "A" sólida para aprender a pular
     criarRabiscoSolido(scene, ctx, { ...textoEmTracos("A", 1.1), cor: "#e06666", posicao: [1.2, 0], nome: "letraA" });
-    // "ÉS" no alto: o acento agudo é um degrau inclinado no meio do 2º rasgo
     criarRabiscoSolido(scene, ctx, {
       tracos: [[[0, 0], [1.9, 0.75]]],
       cor: "#e06666",
@@ -77,15 +71,12 @@ export const portugues = {
       posicao: [46.4, 5.1],
       nome: "acento",
     });
-    // til decorativo-sólido sobre a plataforma flutuante (vira um "ã" gigante)
     criarRabiscoSolido(scene, ctx, {
       tracos: [[[0, 0], [0.4, 0.3], [0.9, 0], [1.3, -0.2], [1.7, 0.1]]],
       cor: "#e06666",
       posicao: [52.4, 6.4],
       nome: "til",
     });
-    // Novidade (Integrante 2): uma vírgula gigante que serve de rampa
-    // para pular as tachinhas do trecho final da página.
     criarRabiscoSolido(scene, ctx, {
       tracos: [[[0, 0], [0.8, 0.25], [1.4, 0.7], [1.7, 1.2], [1.6, 1.5]]],
       cor: "#e06666",

@@ -1,5 +1,3 @@
-// Interface da partida com Babylon GUI: tinta, vidas, tempo, avisos, alerta da borracha,
-// tela de pausa e tela de fim (vitória / sem vidas).
 import { AdvancedDynamicTexture, Rectangle, TextBlock, Button, StackPanel, Control } from "@babylonjs/gui";
 import { CORES } from "./cena/papel.js";
 import { formatarTempo } from "./progresso.js";
@@ -46,9 +44,6 @@ function painelDeTela(nome, fundo = "rgba(251, 247, 234, 0.9)") {
 }
 
 export class Hud {
-  /**
-   * @param {object} info { titulo, dificuldade }
-   */
   constructor(scene, info) {
     this.ui = AdvancedDynamicTexture.CreateFullscreenUI("hud", true, scene);
     this.ui.idealHeight = 900;
@@ -68,7 +63,6 @@ export class Hud {
     this.ui.addControl(jogo);
     this.telaJogo = jogo;
 
-    // barra de tinta (canto superior esquerdo)
     const caixa = new StackPanel();
     caixa.width = "320px";
     caixa.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
@@ -111,7 +105,6 @@ export class Hud {
     this.vidas = canto("", 40, CORES.margem, "62px");
     canto(`${info.titulo} · ${info.dificuldade}`, 26, "#777", "112px");
 
-    // alerta quando a borracha está chegando e ainda fora da tela
     this.alerta = texto("◀ BORRACHA!", 54, CORES.margem);
     this.alerta.width = "360px";
     this.alerta.textHorizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
@@ -122,7 +115,6 @@ export class Hud {
     this.alerta.isVisible = false;
     jogo.addControl(this.alerta);
 
-    // aviso central
     this.textoAviso = texto("", 64, CORES.tinta);
     this.textoAviso.verticalAlignment = Control.VERTICAL_ALIGNMENT_TOP;
     this.textoAviso.top = "150px";
@@ -164,7 +156,6 @@ export class Hud {
     this.telaFim = fundo;
   }
 
-  /** @param {"jogo"|"pausa"|"fim"} qual */
   mostrar(qual) {
     this.telaJogo.isVisible = qual === "jogo";
     this.telaPausa.isVisible = qual === "pausa";
@@ -172,9 +163,6 @@ export class Hud {
     this._aparecerFim = false;
   }
 
-  /**
-   * @param {{venceu:boolean, titulo:string, subtitulo:string, resumo:string, recorde?:string, botao:string}} o
-   */
   mostrarFim(o) {
     this.telaFim.background = o.venceu ? "rgba(251, 247, 234, 0)" : "rgba(251, 247, 234, 0.88)";
     this.tituloFim.text = o.titulo;
@@ -193,7 +181,6 @@ export class Hud {
     this._tempoAviso = duracao;
   }
 
-  /** Pisca "◀ BORRACHA!" na borda esquerda quando ela está perto mas fora da tela. */
   alertarBorracha(visivel) {
     this.alerta.isVisible = visivel;
     if (visivel) this.alerta.alpha = 0.55 + Math.abs(Math.sin(this._pulso * 6)) * 0.45;
