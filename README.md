@@ -2,14 +2,7 @@
 
 Jogo de plataforma 2.5D feito com **BabylonJS**, em que o jogador **desenha as próprias plataformas com o mouse**.
 
-## Como executar
-
-```bash
-npm install
-npm run dev
-```
-
-**Jogue no navegador:** https://vianelo04.github.io/Rabisco/
+![Menu do jogo, com o caderno 3D](docs/imagens/menu.jpg)
 
 ## Sobre o jogo
 
@@ -41,6 +34,12 @@ Um bonequinho rabiscado na margem de um caderno ganha vida durante a aula. Uma *
 | 3 | **Ciências** | Béquer com ácido, vulcão de maquete em erupção, átomo com elétrons em órbita, conta-gotas e planetas girando em volta do Sol |
 | 4 | **Desenhos** | As últimas páginas do caderno: o chão é lava, carrinho, dragão que cospe fogo, foguete e a contracapa |
 
+| Matemática | Ciências |
+|---|---|
+| ![Números como degraus](docs/imagens/matematica.jpg) | ![Sistema solar](docs/imagens/ciencias.jpg) |
+| **Desenhos: o chão é lava** | **Desenhos: o dragão** |
+| ![Carrinho sobre a lava](docs/imagens/desenhos-carrinho.jpg) | ![Dragão desenhado](docs/imagens/desenhos-dragao.jpg) |
+
 ## Dificuldades
 
 | | Fácil | Médio | Difícil |
@@ -50,6 +49,8 @@ Um bonequinho rabiscado na margem de um caderno ganha vida durante a aula. Uma *
 | Desfazer devolve | 100% da tinta | 50% da tinta | 100% da tinta |
 
 O progresso (fases liberadas e recordes de tempo por dificuldade) fica salvo no navegador.
+
+![Sumário com as matérias](docs/imagens/sumario.jpg)
 
 ## Ferramenta utilizada: BabylonJS
 
@@ -73,8 +74,8 @@ Os sons e a música são sintetizados na hora com a Web Audio API (sem arquivos 
 Pré-requisito: [Node.js](https://nodejs.org/) **20.19 ou superior** (ou 22.12+).
 
 ```bash
-git clone https://github.com/Vianelo04/Rabisco.git
-cd Rabisco
+git clone https://github.com/SEU-USUARIO/SEU-REPOSITORIO.git
+cd SEU-REPOSITORIO
 npm install
 npm run dev
 ```
@@ -122,38 +123,4 @@ Versão completa: 4 matérias jogáveis, 3 dificuldades e progresso salvo no nav
 
 ## Integrantes
 
-| Integrante | GitHub | Responsável por |
-|---|---|---|
-| Vianelo04 | [@Vianelo04](https://github.com/Vianelo04) | Configuração do projeto, regras da partida, dificuldades e progresso, menu 3D, construtor de fases, créditos, documentação e publicação |
-| João Pedro Maniezzi | [@Maniezzi12345](https://github.com/Maniezzi12345) | Personagem e física, controles e câmera, desenho de plataformas com tinta, áudio e fase Português |
-| Lucas Haddad | [@lucashaddad97](https://github.com/lucashaddad97) | Papel e iluminação, Borracha, tachinhas e bolas de papel, HUD e telas, fase Matemática |
-| Arthur Falcetti | — | Rabiscos sólidos, plataformas móveis, perigos temáticos, fases Ciências e Desenhos |
-
-### Vianelo04
-- Configuração inicial do projeto com Vite, BabylonJS e Havok, e documento de design
-- Níveis de dificuldade e progresso salvo no navegador (`config.js`, `progresso.js`)
-- Construtor de fases a partir de dados (`fases/construtor.js`)
-- Menu com caderno 3D, escolha de dificuldade e sumário (`menu.js`)
-- Regras da partida: vidas, checkpoints, vitória e derrota (`partida.js`, `main.js`)
-- Tela de créditos, README, publicação no GitHub Pages e versão de entrega
-
-### João Pedro Maniezzi
-- Leitura do teclado e câmera lateral que segue o jogador (`entrada.js`, `camera.js`)
-- Personagem de palito com física Havok: movimento, pulo, rampas e carona em plataformas (`jogador.js`)
-- Mecânica central: desenho de plataformas com o mouse e consumo de tinta (`desenho.js`)
-- Efeitos sonoros e música sintetizados com Web Audio (`audio.js`)
-- Fase 1, Português (tutorial), calibração da tinta do modo Difícil e a vírgula que vira rampa (`fases/portugues.js`)
-
-### Lucas Haddad
-- Texturas de papel do caderno geradas por código (`cena/papel.js`)
-- Iluminação com sombras e efeitos de partículas (`cena/luz.js`, `efeitos.js`)
-- Borracha gigante que persegue o jogador e apaga os traços (`borracha.js`)
-- Tachinhas e bolas de papel com física (`obstaculos.js`)
-- HUD, telas de pausa e fim e animação da página virando (`hud.js`, `cena/viragem.js`)
-- Fase 2, Matemática, calibração da tinta do modo Difícil e o + que gira mais rápido (`fases/matematica.js`)
-
-### Arthur Falcetti
-- Rabiscos sólidos para números, letras e formas (`objetos/rabiscoSolido.js`)
-- Plataformas móveis, giratórias e que caem (`objetos/plataformas.js`)
-- Perigos temáticos: ×, lava, ácido, vulcão e dragão (`objetos/perigos.js`)
-- Fase 3, Ciências, e Fase 4, Desenhos (`fases/ciencias.js`, `fases/desenhos.js`)
+- _(a preencher)_
