@@ -1,7 +1,7 @@
 {
   "name": "rabisco",
   "private": true,
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Jogo de plataforma 2.5D feito com BabylonJS: desenhe as próprias plataformas com o mouse.",
   "type": "module",
   "scripts": {
